@@ -14,7 +14,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 # Your bot token
-TOKEN = "7754923835:AAGf0uJXneEalpHclW7zMaMBHdF4u3rYbwc"
+TOKEN = os.getenv("7754923835:AAGf0uJXneEalpHclW7zMaMBHdF4u3rYbwc")
 
 # URL of the watermark bar image
 WATERMARK_URL = "https://media-hosting.imagekit.io/f2f2310074674765/watermarked_image%20(1).png?Expires=1840249804&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=Dm4BC2njg0YXi1yZIsV8rdzhjXFcsSkKz1vn9b39rPoIygAPFk5mm2qL3QixquIP7eIVlR8ngqUCFFT1JomDjNqkNFOJKfoEF1oNWO4FMUeke~iQBoCJ6H-EkFNWUd0SU2gG2Zc6~sJbhxnqsBdGWTh6tV~CrSP2FIoK53VYb6dCduIsyWwnXT99pxqzvR5ngAm03cqyHJHYvhvz0mfUzJNwSlM44Qo3ENpHaRM4f8DGcQRkrvdYCKii6ujpSPyzGLmPIkRszBiKcYzhJhTjQv21kPIuwdRpy5cCpW2y-TWFimji8g7gn-cay-MzyO6ia6vybNprVfmP9nU-dwhxyw__"
