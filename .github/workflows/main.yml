@@ -7,6 +7,11 @@ on:
   schedule:
     - cron: '0 */6 * * *'  # Run every 6 hours to ensure bot stays active
 
+# Add permissions block to fix the "Resource not accessible by integration" error
+permissions:
+  contents: read
+  actions: write  # This allows the workflow to trigger other workflows
+
 jobs:
   run-bot:
     runs-on: ubuntu-latest
