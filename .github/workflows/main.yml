@@ -5,32 +5,45 @@ on:
     branches: [ main ]
   workflow_dispatch:
   schedule:
-    - cron: '*/30 * * * *'  # Run every 30 minutes to ensure bot stays active
-
-permissions:
-  contents: read
+    - cron: '0 */6 * * *'  # Run every 6 hours to ensure bot stays active
 
 jobs:
   run-bot:
     runs-on: ubuntu-latest
-    timeout-minutes: 25  # Set timeout to slightly less than the cron interval
+    timeout-minutes: 360  # 6-hour timeout
     
+    # Use concurrency to ensure only one instance runs at a time
+    concurrency:
+      group: bot-instance
+      cancel-in-progress: false
+
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v2
       with:
         python-version: '3.10'
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
     - name: Run the bot
       run: |
-        # Set a timeout to gracefully exit before GitHub's job timeout
-        timeout 23m python main.py
-      shell: bash
+        # The token is directly included in your main.py, so we'll use it as is
+        python main.py
+      
+    - name: Keep alive
+      if: failure()
+      uses: actions/github-script@v6
+      with:
+        script: |
+          github.rest.actions.createWorkflowDispatch({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            workflow_id: 'bot.yaml',
+            ref: 'main'
+          });
